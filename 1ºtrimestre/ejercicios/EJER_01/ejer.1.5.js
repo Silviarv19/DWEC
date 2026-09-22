@@ -39,6 +39,6 @@ console.log(estudiantesAprob.forEach(estudiantes=> {
 }))
 
 //comprobar que la propiedad aprobado es coherente
-array.forEach(element => {
+estudiantes.forEach(estudiante => {
     
 });
