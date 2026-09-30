@@ -40,3 +40,18 @@ if(indice !== -1){
 export function calcularTotalPaginas(){
 return libros.reduce((total, libro)=> total + libro.paginas,0)
 }
+
+//funcion ordenar por paginas
+export function ordenarPorPaginas(){
+    return libros.sort((a,b)=> b.paginas - a.paginas)
+}
+
+//comprobar si libro más largo que 
+export function hayLibrosLargos(limitePaginas){
+    return libros.some(libro => libro.paginas > limitePaginas)
+}
+
+//comprobar si todos los libros tienen menos paginas que
+export function todosSonLibrosCortos(limitePaginas){
+    return libros.every(libro => libro.paginas < limitePaginas)
+}
