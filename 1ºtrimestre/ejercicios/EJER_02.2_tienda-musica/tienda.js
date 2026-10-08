@@ -16,13 +16,17 @@
 //     en un array de objetos { nombre, categoria, precio, stock }.
 //     Si lo que recibe no es un array, devuelve [].
 export const crearCatalogo = (matriz) => {
-  if (!Array.isArray(matriz)) return []
-  return matriz.map(([nombre, categoria, precio, stock]) => ({
+  if(!Array.isArray(matriz)){
+    return []
+  }
+  return matriz.map(([nombre, categoria, precio, stock]) => {
+    return{
     nombre,
     categoria,
     precio,
-    stock,
-  }))
+    stock
+    }
+  })
 };
 
 // 1.2 Devuelve un catálogo NUEVO con las novedades (que llegan en
