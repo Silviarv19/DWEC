@@ -25,6 +25,10 @@
      border-radius: 5px;
  }
 
+ .titulo-grande {
+    color: #032e5b;
+ }
+
  .card h2 {
      color: #0056b3;
  }
