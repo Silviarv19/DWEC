@@ -40,7 +40,7 @@ export const ampliarCatalogo = (catalogo, matrizNovedades) => {
 //     alfabético, respetando las tildes ('Vinilo Ópera' va tras 'Vinilo Jazz').
 export const nombresOrdenados = (catalogo) => {
   const nombres = catalogo.map(a => a.nombre)
-  return nombres.sort((a,b) => a.localeCompare(b, 'es', {sensitivity: 'base' }))
+  return nombres.sort((a, b) => a.localeCompare(b, 'es', { sensitivity: 'base' }))
 };
 
 // 1.4 Devuelve una COPIA del catálogo ordenada por precio,
@@ -52,7 +52,8 @@ export const ordenarPorPrecio = (catalogo, descendente = false) => {
 
 // 1.5 Devuelve los nombres de los tres productos más baratos.
 export const tresMasBaratos = (catalogo) => {
-  
+  const ordenados = ordenarPorPrecio(catalogo, false)
+  return ordenados.slice(0, 3).map(a => a.nombre)
 };
 
 // ================================================================
@@ -62,29 +63,36 @@ export const tresMasBaratos = (catalogo) => {
 // 2.1 Devuelve el producto con ese nombre, sin distinguir mayúsculas
 //     y minúsculas, o undefined si no existe.
 export const buscarProducto = (catalogo, nombre) => {
-  // Tu código aquí
+  return catalogo.find(
+    a => a.nombre.toLowerCase() === nombre.toLowerCase()
+  )
 };
 
 // 2.2 Devuelve true si existe un producto con ese nombre.
 //     Obligatorio: usa includes.
 export const existeProducto = (catalogo, nombre) => {
-  // Tu código aquí
+  const nombreMinusculas = catalogo.map(nombre.toLowerCase())
+  return nombreMinusculas.includes(nombre.toLowerCase())
 };
 
 // 2.3 Devuelve la posición del producto en el catálogo, o -1.
 export const posicionProducto = (catalogo, nombre) => {
-  // Tu código aquí
+  return catalogo.findIndex(
+    a => a.nombre.toLowerCase() === nombre.toLowerCase()
+  )
 };
 
 // 2.4 Devuelve un array con los NOMBRES de los productos sin stock.
 export const agotados = (catalogo) => {
-  // Tu código aquí
+  return catalogo
+  .filter(a => a.stock === 0)
+  .map(a => a.nombre)
 };
 
 // 2.5 Devuelve los productos con precio entre minimo y maximo
 //     (ambos incluidos).
 export const productosEntre = (catalogo, minimo, maximo) => {
-  // Tu código aquí
+  return catalogo.filter(a => a.precio <= maximo && a.precio >= minimo)
 };
 
 // ================================================================
@@ -93,28 +101,31 @@ export const productosEntre = (catalogo, minimo, maximo) => {
 
 // 3.1 Valor total del almacén: suma de precio × stock.
 export const valorAlmacen = (catalogo) => {
-  // Tu código aquí
+  return catalogo.reduce((total,a) => total + (a.precio * a.stock, 0))
 };
 
 // 3.2 Devuelve el producto (el objeto completo) más caro.
 export const productoMasCaro = (catalogo) => {
-  // Tu código aquí
+ return catalogo.reduce((total,a) => a.precio > total.precio ? a : total, catalogo[0])
 };
 
 // 3.3 Devuelve un objeto con las unidades en stock de cada categoría:
 //     { equipos: 7, accesorios: 29, discos: 14 }
 export const unidadesPorCategoria = (catalogo) => {
-  // Tu código aquí
+  return catalogo.reduce((total,a) => {
+    total[a.categoria] = (total[a.categoria] || 0) + a.stock
+    return total
+  }, {})
 };
 
 // 3.4 Devuelve true si hay AL MENOS un producto agotado.
 export const hayAgotados = (catalogo) => {
-  // Tu código aquí
+  return catalogo.some(a => a.stock === 0)
 };
 
 // 3.5 Devuelve true si TODOS los precios son números mayores que 0.
 export const preciosValidos = (catalogo) => {
-  // Tu código aquí
+  return catalogo.every(a => a.precio > 0)
 };
 
 // ================================================================
@@ -131,25 +142,48 @@ export const preciosValidos = (catalogo) => {
 //     }
 //     ¡Ojo! La cantidad debe ser un número, no un string.
 export const parsearPedido = (texto) => {
-  // Tu código aquí
+  const [cliente, resto] = texto.split('|')
+  const lineasTexto = resto ? resto.split(';') : []
+
+  const lineas = lineasTexto.map(linea => {
+    const [nombre, cantidadString] = linea.split(':')
+    return{
+      nombre,
+      cantidad: Number(cantidadString)
+    }
+  })
+
+  return {cliente, lineas}
 };
 
 // 4.2 Devuelve true si TODOS los productos del pedido existen
 //     y tienen stock suficiente.
 export const puedeServirse = (catalogo, pedido) => {
-  // Tu código aquí
+  return pedido.lineas.every(linea => {
+    const prod = buscarProducto(catalogo, linea.nombre)
+    return prod !== undefined && prod.stock >= linea.cantidad
+  })
 };
 
 // 4.3 Devuelve el importe total del pedido.
 export const totalPedido = (catalogo, pedido) => {
-  // Tu código aquí
+  return pedido.lineas.reduce((total, linea)=> {
+    const prod = buscarProducto(catalogo, lineas.nombre)
+    return total + (prod ? prod.precio * linea.cantidad : 0)
+  }, 0)
 };
 
 // 4.4 Devuelve un catálogo NUEVO en el que se ha restado del stock
 //     la cantidad pedida de cada producto. El original no cambia.
 //     Pista: { ...producto, stock: nuevoStock } crea una copia del objeto.
 export const servirPedido = (catalogo, pedido) => {
-  // Tu código aquí
+  return catalogo.map(prod =>{
+    const linea = pedido.lineas.find(l => l.nombre.toLowerCase() === prod.nombre.toLowerCase())
+    if (linea) {
+      return {...prod, stock: prod.stock - linea.cantidad}
+    }
+    return {...prod}
+  })
 };
 
 // 4.5 Devuelve el ticket del pedido como un único texto:
