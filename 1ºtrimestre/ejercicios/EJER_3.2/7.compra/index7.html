@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Productos</h2>
+
+<ul id="productos">
+    <li data-price="10">
+        Camiseta - 10 €
+        <button onclick="anadirAlCarrito(this)">Añadir al carrito</button>
+    </li>
+
+    <li data-price="20">
+        Pantalón - 20 €
+        <button onclick="anadirAlCarrito(this)">Añadir al carrito</button>
+    </li>
+
+    <li data-price="5">
+        Calcetines - 5 €
+        <button onclick="anadirAlCarrito(this)">Añadir al carrito</button>
+    </li>
+</ul>
+
+<h2>Carrito</h2>
+
+<ul id="carrito"></ul>
+
+<p>Total: <span id="total">0</span> €</p>
+
+<script src="./logica7.js"></script>
+</body>
+</html>
