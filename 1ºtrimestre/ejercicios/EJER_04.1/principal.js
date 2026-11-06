@@ -86,14 +86,102 @@ texto.addEventListener("input", function(){
 // ---------- Ejercicio 5 · Paleta de colores ----------
 const paleta = document.getElementById("paleta")
 const lienzo = document.getElementById("lienzo")
-const nombre = document.getElementById("nombre-color")
+const nombreColor = document.getElementById("nombre-color")
 
+paleta.addEventListener("click", function(evento){
+    if(evento.target.classList.contains("muestra")){
+        const color = evento.target.getAttribute("data-color")
+        const nombre = evento.target.getAttribute("data-nombre")
 
+        lienzo.style.backgroundColor = color
+        nombreColor.textContent = nombre
+    }
+})
 
 // ---------- Ejercicio 6 · Grupo con foco ----------
+const grupo = document.getElementById("grupo-contacto")
+const mensajeFoco = document.getElementById("mensaje-foco")
 
+grupo.addEventListener("focusin", function(evento){
+    grupo.classList.add("activo")
+    mensajeFoco.textContent = "Editando: " + evento.target.placeholder
+})
+
+grupo.addEventListener("focusout", function(evento){
+    if(!grupo.contains(evento.relatedTarget)){
+        grupo.classList.remove("activo")
+        mensajeFoco.textContent = "Ningún campo activo"
+    }
+})
 
 // ---------- Ejercicio 7 · Burbuja y captura ----------
+const externa = document.getElementById("caja-externa")
+const media = document.getElementById("caja-media")
+const interna = document.getElementById("caja-interna")
+const registro = document.getElementById("registro-flujo")
+const limpiar = document.getElementById("boton-limpiar-flujo")
+
+function registrar(nombre){
+    const elemento = document.createElement("li")
+    elemento.textContent = nombre
+    registro.appendChild(elemento)
+}
+
+externa.addEventListener("click", function(){
+    registrar("Externa")
+})
+
+media.addEventListener("click", function(){
+    registrar("Media")
+})
+
+interna.addEventListener("click", function(){
+    registrar("Interna")
+})
+
+externa.addEventListener("click", function(){
+    registrar("Externa (captura)")
+}, true )
+
+media.addEventListener("click", function(){
+    registrar("Media (captura)")
+}, true)
+
+interna.addEventListener("click", function(){
+    registrar("Interna (captura)")
+}, true)
+
+limpiar.addEventListener("click", function(){
+    registro.innerHTML = ""
+})
+
 
 
 // ---------- Ejercicio 8 · Detener y cancelar ----------
+const tarjetaProducto = document.getElementById("tarjeta-producto")
+const botonComprar = document.getElementById("boton-comprar")
+const enlace = document.getElementById("enlace-info")
+const mensajeEstado = document.getElementById("mensaje-estado")
+
+function escribirMensaje(texto) {
+    const linea = document.createElement("p")
+    linea.textContent= texto
+    mensajeEstado.appendChild(linea)
+}
+
+tarjetaProducto.addEventListener("click", function(){
+    escribirMensaje("Has pulsado la tarjeta")
+})
+
+botonComprar.addEventListener("click", function(evento){
+    evento.stopPropagation()
+    escribirMensaje("Producto comprado")
+})
+
+enlace.addEventListener("click", function(evento){
+    evento.preventDefault()
+    escribirMensaje("Enlace bloqueado")
+})
+
+
+
