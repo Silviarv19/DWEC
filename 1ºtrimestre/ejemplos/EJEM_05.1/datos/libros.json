@@ -1,0 +1,5 @@
+[
+  { "id": 1, "titulo": "El nombre de la rosa", "autor": "Umberto Eco", "anio": 1980 },
+  { "id": 2, "titulo": "Cien años de soledad", "autor": "Gabriel García Márquez", "anio": 1967 },
+  { "id": 3, "titulo": "Fahrenheit 451", "autor": "Ray Bradbury", "anio": 1953 }
+]
